@@ -78,7 +78,7 @@ Then, depending on how you use LanguageTool:
 
 * Command line: 
 ```
-echo "Put on the breaks" | java -jar languagetool-commandline.jar -l en-US --languagemodel "<path-to-your-SSD>/ngram-data" --word2vecmodel "~/LanguageTool-5.4/word2vec" --fasttextmodel "./fasttextModel/lid.176.bin" --fasttextbinary "./fastText/fasttext" - 
+echo "Put on the breaks" | java -jar languagetool-commandline.jar -l en-US --languagemodel "<path-to-your-SSD>/ngram-data" --word2vecmodel "./word2vec" --fasttextmodel "./fasttextModel/lid.176.bin" --fasttextbinary "./fastText/fasttext" - 
 ```
 
 * Server mode: 
@@ -91,7 +91,7 @@ java -cp languagetool-server.jar org.languagetool.server.HTTPServer --port 8081 
 + LT GUI (languagetool.jar): `java -jar languagetool.jar` --> Text Checking --> Options --> General --> set ngram data directory as `<path-to-your-SSD>/ngram-data`and word2vec data directory as `~/LanguageTool-5.4/word2vec`. Make sure to choose that directory (which contains the subfolders “de”, “en” etc.)
 
 
-Test with sentence "Put on the breaks", which is an error that can only be detected using the n-gram rule, as of September 2020: 
+Test with sentence "Put on the breaks", which is an error that can only be detected using the n-gram rule: 
 http://localhost:8081/v2/check?language=en-US&text=Put+on+the+breaks
 
 
