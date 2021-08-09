@@ -72,6 +72,8 @@ if everything builds successfully, your `.languagetool.cfg` should look like thi
   languageModel=<path-to-your-SSD>/ngram-data
   ```
 
+
+## Test it out!
 Then, depending on how you use LanguageTool:
 
 * Command line: 
