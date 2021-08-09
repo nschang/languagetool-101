@@ -19,7 +19,7 @@ Download the desired language archive from https://languagetool.org/download/wor
   mkdir word2vec
   cd word2vec
   wget -q --show-progress https://languagetool.org/download/word2vec/en.zip
-  tar -xf *.zip
+  unzip *.zip
   
   # update config 
   echo 'word2vecModel=~/LanguageTool-5.4/word2vec' >> ~/.languagetool.cfg
@@ -32,7 +32,7 @@ Here we need the [fasttextModel](https://fasttext.cc/docs/en/language-identifica
   ```
   # get the latest version of fasttextModel
   wget -q --show-progress https://languagetool.org/download/fasttext.tar.gz
-  tar https://languagetool.org/download/fasttext.tar.gz
+  tar -xf https://languagetool.org/download/fasttext.tar.gz
   # rename the folder to avoid confusion
   mv ./fasttext ./fasttextModel 
 
