@@ -1,18 +1,19 @@
-This is a step-by-step instruction to setup and enable advanced features (FastText, word2vec, ngram) of LanguageTool on MacOS. 
-
 
 ## You might need this if you: 
-* have a [LanguageTool Server](https://dev.languagetool.org/http-server)  (version 5.4 or higher) running locally. 
-* want to turn on advanced features (word2vec, fastText, ngram) with more statistics rules
+* have a [LanguageTool Server](https://dev.languagetool.org/http-server)  (version 5.4 or higher) running locally on your mac
+* want to turn on advanced features (word2vec, fastText, ngram) 
+
+Here we use language `en` as example. 
 
 
-## word2vec [(LanguageTool Neural Network)](https://github.com/gulp21/languagetool-neural-network)
+
+# word2vec [(LanguageTool Neural Network)](https://github.com/gulp21/languagetool-neural-network)
 
 > Neural network based rules for confusion pair disambiguation using the word2vec model. Available in English, German, and Portuguese.
 
 Download the desired language archive from https://languagetool.org/download/word2vec/. 
 
-Here we use language `en` as example. 
+
   ```
   # get language data 
   mkdir word2vec
@@ -23,7 +24,7 @@ Here we use language `en` as example.
   # update config 
   echo 'word2vecModel=~/LanguageTool-5.4/word2vec' >> ~/.languagetool.cfg
   ```
-## FastText
+# FastText
 > FastText makes automatic language detection [much better than the built-in one.](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#http-api--lt-server-4)
 
 Here we need the [fasttextModel](https://fasttext.cc/docs/en/language-identification.html), and the [fasttextBinary](https://fasttext.cc/docs/en/support.html).
@@ -45,7 +46,7 @@ Here we need the [fasttextModel](https://fasttext.cc/docs/en/language-identifica
   ```
 This will put the fastnet model in ./fasttextModel, and the main binary `fasttext` in ./fastText. 
 
-## [n-gram data](https://dev.languagetool.org/finding-errors-using-n-gram-data)
+# [n-gram data](https://dev.languagetool.org/finding-errors-using-n-gram-data)
 
 > Make sure you have a fast disk, i.e. an SSD. Without an SSD, using this data can make LanguageTool much slower.
 
@@ -70,21 +71,27 @@ This will put the fastnet model in ./fasttextModel, and the main binary `fasttex
   echo 'languageModel=<path-to-your-SSD>/ngram-data' >> ~/.languagetool.cfg
   ```
 
-if everything builds successfully, your `~/.languagetool.cfg` should look like this: 
+if everything builds successfully, your `.languagetool.cfg` should look like this ():
   ```
-  word2vecModel=~/LanguageTool-5.4/word2vec
-  fasttextModel=~/LanguageTool-5.4/fasttextModel/lid.176.bin
-  fasttextBinary=~/LanguageTool-5.4/fastText/fasttext
+  word2vecModel=./word2vec
+  fasttextModel=./fasttextModel/lid.176.bin
+  fasttextBinary=./fastText/fasttext
   languageModel=<path-to-your-SSD>/ngram-data
   ```
 
 Then, depending on how you use LanguageTool:
 
-* Command line: `--config "~/.languagetool.cfg"`
+* Command line: 
+```
+echo "Put on the breaks" | java -jar languagetool-commandline.jar -l en-US --languagemodel "<path-to-your-SSD>/ngram-data" --word2vecmodel "~/LanguageTool-5.4/word2vec" --fasttextmodel "./fasttextModel/lid.176.bin" --fasttextbinary "./fastText/fasttext" - 
+```
 
-* Server mode: `java -cp languagetool-server.jar org.languagetool.server.HTTPServer --port 8081 --allow-origin "*" --config "~/.languagetool.cfg"`
+* Server mode: 
+```
+java -cp languagetool-server.jar org.languagetool.server.HTTPServer --port 8081 --allow-origin "*" --config "~/.languagetool.cfg"
+```
 
 Test with sentence "Put on the breaks", which is an error that can only be detected using the n-gram rule, as of September 2020: 
 http://localhost:8081/v2/check?language=en-US&text=Put+on+the+breaks
 
-you should now see a new match "brake" instead of "break".
+
