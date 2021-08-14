@@ -22,7 +22,7 @@ Download the desired language archive from https://languagetool.org/download/wor
   unzip *.zip
   
   # update config 
-  echo 'word2vecModel=~/LanguageTool-5.4/word2vec' >> ~/.languagetool.cfg
+  echo 'word2vecModel=${HOME}/LanguageTool-5.4/word2vec' >> ${HOME}/.languagetool.cfg
   ```
 ## FastText
 > FastText makes automatic language detection [much better than the built-in one.](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#http-api--lt-server-4)
@@ -42,7 +42,8 @@ Here we need the [fasttextModel](https://fasttext.cc/docs/en/language-identifica
   make
 
   # update config
-  {echo 'fasttextModel=~/LanguageTool-5.4/fasttextModel/lid.176.bin'; echo 'fasttextBinary=~/LanguageTool-5.4/fastText/fasttext';} >> ~/.languagetool.cfg
+  {echo 'fasttextModel=${HOME}/LanguageTool-5.4/fasttextModel/lid.176.bin'; echo 'fasttextBinary=
+  /LanguageTool-5.4/fastText/fasttext';} >> ${HOME}/.languagetool.cfg
   ```
 This will put the fasttext model in ./fasttextModel, and the main binary `fasttext` in ./fastText. 
 
@@ -61,7 +62,7 @@ This will put the fasttext model in ./fasttextModel, and the main binary `fastte
   wget -q --show-progress http://languagetool.org/download/ngram-data/ngrams-en-20150817.zip | unzip http://languagetool.org/download/ngram-data/ngrams-en-20150817.zip 
   
   # update config 
-  echo 'languageModel=<path-to-your-SSD>/ngram-data' >> ~/.languagetool.cfg
+  echo 'languageModel=<path-to-your-SSD>/ngram-data' >> ${HOME}/.languagetool.cfg
   ```
 
 if everything builds successfully, your `.languagetool.cfg` should look like this (Make one if it doesn't exist.):
@@ -83,12 +84,12 @@ echo "Put on the breaks" | java -jar languagetool-commandline.jar -l en-US --lan
 
 * Server mode: 
 ```
-java -cp languagetool-server.jar org.languagetool.server.HTTPServer --port 8081 --allow-origin "*" --config "~/.languagetool.cfg"
+java -cp languagetool-server.jar org.languagetool.server.HTTPServer --port 8081 --allow-origin "*" --config "${HOME}/.languagetool.cfg"
 ```
 
 * LT as LibreOffice/OpenOffice add-on: open the `Options` dialog and set the n-gram directory.
 
-+ LT GUI (languagetool.jar): `java -jar languagetool.jar` --> Text Checking --> Options --> General --> set ngram data directory as `<path-to-your-SSD>/ngram-data`and word2vec data directory as `~/LanguageTool-5.4/word2vec`. Make sure to choose that directory (which contains the subfolders “de”, “en” etc.)
++ LT GUI (languagetool.jar): `java -jar languagetool.jar` --> Text Checking --> Options --> General --> set ngram data directory as `<path-to-your-SSD>/ngram-data`and word2vec data directory as `${HOME}/LanguageTool-5.4/word2vec`. Make sure to choose that directory (which contains the subfolders “de”, “en” etc.)
 
 
 Test with sentence "Put on the breaks", which is an error that can only be detected using the n-gram rule: 
