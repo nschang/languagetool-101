@@ -113,17 +113,17 @@ Now you can test it out, depending on how you use LanguageTool:
   You can test the server by calling this URL in your browser:
 
   http://localhost:8081/v2/check?language=en-US&text=my+text
+  
+  Then you can test with sentence `Put on the breaks`, which is an error that can only be detected using the n-gram rule (breaks-->brakes):  
+
+  http://localhost:8081/v2/check?language=en-US&text=Put+on+the+breaks
 
 * LT as LibreOffice/OpenOffice add-on: open the `Options` dialog and set the n-gram directory.
 
 * LT GUI (languagetool.jar)
-  first run 
+  
+  first run:
   ```
   java -jar languagetool.jar
   ```
   then select --> Text Checking --> Options --> General --> set `n-gram data directory` as `/PATH/TO/YOUR/SSD/ngram-data` and `word2vec data directory` as `${HOME}/LanguageTool-5.4/word2vec`. Make sure to choose that directory (which contains the subfolders `de`, `en` etc.)
-
-
-Test with sentence `Put on the breaks`, which is an error that can only be detected using the n-gram rule (breaks-->brakes):  
-http://localhost:8081/v2/check?language=en-US&text=Put+on+the+breaks
-
