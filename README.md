@@ -74,7 +74,9 @@ From official doc: [Finding Errors using n-gram data](https://dev.languagetool.o
   echo 'languageModel=/PATH/TO/YOUR/SSD/ngram-data' >> ${HOME}/.languagetool.cfg
   ```
 
-if everything builds successfully, your `.languagetool.cfg` should look like this (Make one if it doesn't exist.):
+## Check config
+
+if everything builds successfully, your `${HOME}/.languagetool.cfg` should look like this (create one if it doesn't exist):
   ```
   # LanguageTool configuration (5.4/2021-06-25 10:24:16 +0000)
   
