@@ -31,6 +31,7 @@ Here we need the [fasttextModel](https://fasttext.cc/docs/en/language-identifica
 
   ```
   # get the latest version of fasttextModel
+  cd ${HOME}/LanguageTool-5.4/
   wget -q --show-progress https://languagetool.org/download/fasttext.tar.gz
   tar -xf https://languagetool.org/download/fasttext.tar.gz
   # rename the folder to avoid confusion
@@ -45,7 +46,7 @@ Here we need the [fasttextModel](https://fasttext.cc/docs/en/language-identifica
   {echo 'fasttextModel=${HOME}/LanguageTool-5.4/fasttextModel/lid.176.bin'; echo 'fasttextBinary=
   /LanguageTool-5.4/fastText/fasttext';} >> ${HOME}/.languagetool.cfg
   ```
-This will put the fasttext model in ./fasttextModel, and the main binary `fasttext` in ./fastText. 
+This will put the fasttext model in `${HOME}/LanguageTool-5.4/fasttextModel`, and the main binary `fasttext` in `${HOME}/LanguageTool-5.4/fastText`. 
 
 ## [n-gram data](https://dev.languagetool.org/finding-errors-using-n-gram-data)
 
@@ -55,22 +56,22 @@ This will put the fasttext model in ./fasttextModel, and the main binary `fastte
 
   ```
   # create a new directory in SSD named ngram-data
-  mkdir <path-to-your-SSD>/ngram-data
-  cd <path-to-your-SSD>/ngram-data
+  mkdir /PATH/TO/YOUR/SSD/ngram-data
+  cd /PATH/TO/YOUR/SSD/ngram-data
   
   # download files for selected language: en (>8GB)
   wget -q --show-progress http://languagetool.org/download/ngram-data/ngrams-en-20150817.zip | unzip http://languagetool.org/download/ngram-data/ngrams-en-20150817.zip 
   
   # update config 
-  echo 'languageModel=<path-to-your-SSD>/ngram-data' >> ${HOME}/.languagetool.cfg
+  echo 'languageModel=/PATH/TO/YOUR/SSD/ngram-data' >> ${HOME}/.languagetool.cfg
   ```
 
 if everything builds successfully, your `.languagetool.cfg` should look like this (Make one if it doesn't exist.):
   ```
-  word2vecModel=./word2vec
-  fasttextModel=./fasttextModel/lid.176.bin
-  fasttextBinary=./fastText/fasttext
-  languageModel=<path-to-your-SSD>/ngram-data
+  word2vecModel=${HOME}/LanguageTool-5.4/word2vec
+  fasttextModel=${HOME}/LanguageTool-5.4/fasttextModel/lid.176.bin
+  fasttextBinary=${HOME}/LanguageTool-5.4/fastText/fasttext
+  languageModel=/PATH/TO/YOUR/SSD/ngram-data
   ```
 
 
@@ -79,20 +80,22 @@ Then, depending on how you use LanguageTool:
 
 * Command line: 
 ```
-echo "Put on the breaks" | java -jar languagetool-commandline.jar -l en-US --languagemodel "<path-to-your-SSD>/ngram-data" --word2vecmodel "./word2vec" --fasttextmodel "./fasttextModel/lid.176.bin" --fasttextbinary "./fastText/fasttext" - 
+# this starts the commandline interface 
+# and reads input 'put on the breaks'
+echo "Put on the breaks" | java -jar languagetool-commandline.jar -l en-US --languagemodel "/PATH/TO/YOUR/SSD/ngram-data" --word2vecmodel "./word2vec" --fasttextmodel "./fasttextModel/lid.176.bin" --fasttextbinary "./fastText/fasttext" - 
 ```
 
-* Server mode: 
+* Server mode:
 ```
 java -cp languagetool-server.jar org.languagetool.server.HTTPServer --port 8081 --allow-origin "*" --config "${HOME}/.languagetool.cfg"
 ```
 
 * LT as LibreOffice/OpenOffice add-on: open the `Options` dialog and set the n-gram directory.
 
-+ LT GUI (languagetool.jar): `java -jar languagetool.jar` --> Text Checking --> Options --> General --> set ngram data directory as `<path-to-your-SSD>/ngram-data`and word2vec data directory as `${HOME}/LanguageTool-5.4/word2vec`. Make sure to choose that directory (which contains the subfolders “de”, “en” etc.)
++ LT GUI (languagetool.jar): `java -jar languagetool.jar` --> Text Checking --> Options --> General --> set ngram data directory as `/PATH/TO/YOUR/SSD/ngram-data`and word2vec data directory as `${HOME}/LanguageTool-5.4/word2vec`. Make sure to choose that directory (which contains the subfolders “de”, “en” etc.)
 
 
-Test with sentence "Put on the breaks", which is an error that can only be detected using the n-gram rule: 
+Test with sentence "Put on the breaks", which is an error that can only be detected using the n-gram rule:
 http://localhost:8081/v2/check?language=en-US&text=Put+on+the+breaks
 
 
