@@ -1,18 +1,21 @@
 
 # You might need this if you: 
-* have a [LanguageTool Server](https://dev.languagetool.org/http-server)  (version 5.4 or higher) running locally on your mac
-* want to turn on advanced features (word2vec, fastText, ngram) 
+#### have a [LanguageTool Server](https://dev.languagetool.org/http-server)  (version 5.4 or higher) running locally on your mac
+#### want to turn on advanced features (word2vec, fastText, ngram) 
 
-Here we use language `en` as example. 
+## Jump to 
+* [word2vec](#word2vec)
 
+* [FastText](#fasttext)
 
+* [n-gram data](#n-gram)
 
+<a name="word2vec"></a>
 ## word2vec [(LanguageTool Neural Network)](https://github.com/gulp21/languagetool-neural-network)
 
 > Neural network based rules for confusion pair disambiguation using the word2vec model. Available in English, German, and Portuguese.
 
 Download the desired language archive from https://languagetool.org/download/word2vec/. 
-
 
   ```
   # get language data 
@@ -24,8 +27,10 @@ Download the desired language archive from https://languagetool.org/download/wor
   # update config 
   echo 'word2vecModel=${HOME}/LanguageTool-5.4/word2vec' >> ${HOME}/.languagetool.cfg
   ```
+
+<a name="fasttext"></a>
 ## FastText
-> FastText makes automatic language detection [much better than the built-in one.](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#http-api--lt-server-4)
+> FastText makes automatic language detection [much better](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#http-api--lt-server-4) than the built-in one.
 
 Here we need the [fasttextModel](https://fasttext.cc/docs/en/language-identification.html), and the [fasttextBinary](https://fasttext.cc/docs/en/support.html).
 
@@ -48,11 +53,14 @@ Here we need the [fasttextModel](https://fasttext.cc/docs/en/language-identifica
   ```
 This will put the fasttext model in `${HOME}/LanguageTool-5.4/fasttextModel`, and the main binary `fasttext` in `${HOME}/LanguageTool-5.4/fastText`. 
 
-## [n-gram data](https://dev.languagetool.org/finding-errors-using-n-gram-data)
+<a name="n-gram"></a>
+## n-gram data
+
+From official doc: [Finding Errors using n-gram data](https://dev.languagetool.org/finding-errors-using-n-gram-data)
 
 > Make sure you have a fast disk, i.e. an SSD. Without an SSD, using this data can make LanguageTool much slower.
 
-> Download desired language data from http://languagetool.org/download/ngram-data/ - note: data is currently only available for English, German, French, and Spanish (plus some data for untested languages).
+> Download n--gram for your language from http://languagetool.org/download/ngram-data/ NOTE: As of 09/2021 only English, German, French, Spanish (plus some data for untested languages).
 
   ```
   # create a new directory in SSD named ngram-data
@@ -68,6 +76,8 @@ This will put the fasttext model in `${HOME}/LanguageTool-5.4/fasttextModel`, an
 
 if everything builds successfully, your `.languagetool.cfg` should look like this (Make one if it doesn't exist.):
   ```
+  # LanguageTool configuration (5.4/2021-06-25 10:24:16 +0000)
+  
   word2vecModel=${HOME}/LanguageTool-5.4/word2vec
   fasttextModel=${HOME}/LanguageTool-5.4/fasttextModel/lid.176.bin
   fasttextBinary=${HOME}/LanguageTool-5.4/fastText/fasttext
@@ -76,19 +86,19 @@ if everything builds successfully, your `.languagetool.cfg` should look like thi
 
 
 ## Test it out!
-Then, depending on how you use LanguageTool:
+Now you can test it out, depending on how you use LanguageTool:
 
 * Command line: 
-```
-# this starts the commandline interface 
-# and reads input 'put on the breaks'
-echo "Put on the breaks" | java -jar languagetool-commandline.jar -l en-US --languagemodel "/PATH/TO/YOUR/SSD/ngram-data" --word2vecmodel "./word2vec" --fasttextmodel "./fasttextModel/lid.176.bin" --fasttextbinary "./fastText/fasttext" - 
-```
+  ```
+  # this starts the commandline interface 
+  # and reads input 'put on the breaks'
+  echo "Put on the breaks" | java -jar languagetool-commandline.jar -l en-US --languagemodel "/PATH/TO/YOUR/SSD/ngram-data" --word2vecmodel "./word2vec" --fasttextmodel "./fasttextModel/lid.176.bin" --fasttextbinary "./fastText/fasttext" - 
+  ```
 
 * Server mode:
-```
-java -cp languagetool-server.jar org.languagetool.server.HTTPServer --port 8081 --allow-origin "*" --config "${HOME}/.languagetool.cfg"
-```
+  ```
+  java -cp languagetool-server.jar org.languagetool.server.HTTPServer --port 8081 --allow-origin "*" --config "${HOME}/.languagetool.cfg"
+  ```
 
 * LT as LibreOffice/OpenOffice add-on: open the `Options` dialog and set the n-gram directory.
 
